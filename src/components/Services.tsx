@@ -1,41 +1,45 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import CodeIcon from "@mui/icons-material/Code";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import { COLORS, BORDER_RADIUS } from "@/lib/constants";
-import { services } from "@/lib/navigation";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { COLORS } from "@/lib/constants";
 
-const categoryIcons: Record<string, React.ReactNode> = {
-  "AI Solutions": <AutoAwesomeIcon style={{ fontSize: "2rem" }} />,
-  "Development": <CodeIcon style={{ fontSize: "2rem" }} />,
-  "Support": <SupportAgentIcon style={{ fontSize: "2rem" }} />,
-};
+const services = [
+  {
+    number: "01",
+    title: "AI Solutions",
+    description: "Custom AI-powered applications, machine learning models, and intelligent automation to transform your business operations.",
+    items: ["AI Products", "AI Consulting", "Machine Learning", "Automation"],
+    href: "/services/ai-solutions",
+  },
+  {
+    number: "02",
+    title: "Development",
+    description: "Modern, scalable web and mobile applications built with cutting-edge technologies for optimal performance.",
+    items: ["Web Development", "Mobile Apps", "Desktop Software", "Custom Solutions"],
+    href: "/services/development",
+  },
+  {
+    number: "03",
+    title: "Support",
+    description: "Expert guidance and ongoing support to ensure your systems run smoothly and your team stays productive.",
+    items: ["IT Consulting", "Maintenance", "Training", "24/7 Support"],
+    href: "/services/support",
+  },
+];
 
 export default function Services() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
-    <section
-      className="py-24 px-6 relative"
-      style={{ backgroundColor: COLORS.brand.primary }}
-    >
-      {/* Background Pattern */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/images/services-bg.webp')",
-          backgroundRepeat: "repeat",
-          backgroundSize: "500px",
-          opacity: 0.1,
-        }}
-      />
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section className="py-24 px-6" style={{ backgroundColor: COLORS.background.dark }}>
+      <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="mb-20">
           <span
             style={{
-              color: COLORS.background.dark,
+              color: COLORS.brand.primary,
               fontSize: "0.875rem",
               fontWeight: 600,
               textTransform: "uppercase",
@@ -58,100 +62,105 @@ export default function Services() {
           >
             Services We Offer
           </h2>
-          <p
-            style={{
-              fontSize: "clamp(1rem, 2vw, 1.25rem)",
-              color: "rgba(0,0,0,0.7)",
-              marginTop: "16px",
-              maxWidth: "600px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            From AI-powered solutions to custom software development, we help businesses thrive in the digital age.
-          </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(services).map(([category, items]) => (
-            <div
-              key={category}
+        {/* Services List */}
+        <div className="space-y-0">
+          {services.map((service, index) => (
+            <Link
+              key={service.title}
+              href={service.href}
+              className="group block border-t border-white/10 py-10 transition-all"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
               style={{
-                backgroundColor: "#1a1a1a",
-                border: "1px solid #2a2a2a",
-                borderRadius: BORDER_RADIUS.lg,
-                padding: "32px",
-                transition: "all 0.3s ease",
+                backgroundColor: hoveredIndex === index ? "rgba(118,185,0,0.05)" : "transparent",
               }}
-              className="hover:border-white/30 group"
             >
-              {/* Category Header */}
-              <div className="flex items-center gap-4 mb-6">
-                <div
+              <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-12">
+                {/* Number */}
+                <span
                   style={{
-                    backgroundColor: "rgba(118, 185, 0, 0.15)",
-                    borderRadius: BORDER_RADIUS.md,
-                    padding: "12px",
                     color: COLORS.brand.primary,
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    fontFamily: "monospace",
+                    minWidth: "40px",
                   }}
                 >
-                  {categoryIcons[category]}
-                </div>
+                  {service.number}
+                </span>
+
+                {/* Title */}
                 <h3
+                  className="transition-all"
                   style={{
-                    fontSize: "1.5rem",
+                    fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
                     fontWeight: 700,
-                    color: COLORS.background.light,
+                    color: hoveredIndex === index ? COLORS.brand.primary : "#fff",
+                    minWidth: "280px",
                   }}
                 >
-                  {category}
+                  {service.title}
                 </h3>
+
+                {/* Description */}
+                <p
+                  className="flex-1 transition-all"
+                  style={{
+                    fontSize: "1rem",
+                    color: "rgba(255,255,255,0.6)",
+                    lineHeight: 1.6,
+                    opacity: hoveredIndex === index ? 1 : 0.7,
+                  }}
+                >
+                  {service.description}
+                </p>
+
+                {/* Arrow */}
+                <div
+                  className="transition-all"
+                  style={{
+                    opacity: hoveredIndex === index ? 1 : 0.3,
+                    transform: hoveredIndex === index ? "translateX(8px)" : "translateX(0)",
+                  }}
+                >
+                  <ArrowForwardIcon
+                    style={{
+                      color: COLORS.brand.primary,
+                      fontSize: "2rem",
+                    }}
+                  />
+                </div>
               </div>
 
-              {/* Service Items */}
-              <div className="space-y-4">
-                {items.map((service) => (
-                  <Link
-                    key={service.name}
-                    href={service.href}
-                    className="group/item flex items-start gap-3 p-3 -mx-3 rounded-lg transition-all hover:bg-white/5"
+              {/* Service Items - shows on hover */}
+              <div
+                className="flex flex-wrap gap-3 mt-6 ml-0 lg:ml-[52px] transition-all overflow-hidden"
+                style={{
+                  maxHeight: hoveredIndex === index ? "100px" : "0",
+                  opacity: hoveredIndex === index ? 1 : 0,
+                }}
+              >
+                {service.items.map((item) => (
+                  <span
+                    key={item}
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.08)",
+                      color: "rgba(255,255,255,0.8)",
+                      fontSize: "0.8125rem",
+                      padding: "8px 16px",
+                      borderRadius: "100px",
+                    }}
                   >
-                    <ArrowOutwardIcon
-                      style={{
-                        color: COLORS.brand.primary,
-                        fontSize: "1.25rem",
-                        marginTop: "2px",
-                        opacity: 0.5,
-                        transition: "all 0.2s ease",
-                      }}
-                      className="group-hover/item:opacity-100 group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5"
-                    />
-                    <div>
-                      <span
-                        style={{
-                          color: COLORS.background.light,
-                          fontWeight: 600,
-                          fontSize: "1rem",
-                          display: "block",
-                        }}
-                      >
-                        {service.name}
-                      </span>
-                      <span
-                        style={{
-                          color: "rgba(255,255,255,0.5)",
-                          fontSize: "0.875rem",
-                        }}
-                      >
-                        {service.description}
-                      </span>
-                    </div>
-                  </Link>
+                    {item}
+                  </span>
                 ))}
               </div>
-            </div>
+            </Link>
           ))}
+          {/* Bottom border */}
+          <div className="border-t border-white/10" />
         </div>
       </div>
     </section>
