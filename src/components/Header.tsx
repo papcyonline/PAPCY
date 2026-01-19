@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { COLORS, BORDER_RADIUS } from "@/lib/constants";
 import { services, products } from "@/lib/navigation";
+import AnimatedLogo from "./AnimatedLogo";
 
 const containerStyle = {
   backgroundColor: "rgba(255, 255, 255, 0.95)",
@@ -69,9 +70,7 @@ export default function Header() {
 function LogoSection() {
   return (
     <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-      <span style={{ fontSize: "1.75rem", fontWeight: 900, letterSpacing: "-0.02em" }}>
-        <span style={{ color: COLORS.background.light }}>PAPCY</span>
-      </span>
+      <AnimatedLogo size="md" />
     </Link>
   );
 }
@@ -364,9 +363,7 @@ function MobileHeader({ isOpen, toggle, onClose }: { isOpen: boolean; toggle: ()
       <div style={{ ...containerStyle, borderRadius: BORDER_RADIUS.xl, padding: "12px 16px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-            <span style={{ fontSize: "1.75rem", fontWeight: 900, letterSpacing: "-0.02em" }}>
-              <span style={{ color: COLORS.background.light }}>PAPCY</span>
-            </span>
+            <AnimatedLogo size="md" />
           </Link>
           <button onClick={toggle} style={{ color: COLORS.text.primary, padding: "8px", background: "none", border: "none", cursor: "pointer" }}>
             {isOpen ? <CloseIcon style={{ width: "24px", height: "24px" }} /> : <MenuIcon style={{ width: "24px", height: "24px" }} />}

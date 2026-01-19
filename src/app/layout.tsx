@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Great_Vibes } from "next/font/google";
 import "./globals.css";
+
+const signature = Great_Vibes({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-signature",
+});
 
 const nacelle = localFont({
   src: [
@@ -36,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={nacelle.variable}>
+    <html lang="en" className={`${nacelle.variable} ${signature.variable}`}>
       <body className="antialiased">
         {children}
       </body>
